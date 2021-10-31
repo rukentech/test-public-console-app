@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <PackageId>Test.ConsoleApp</PackageId>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <Authors>andersson09</Authors>
+    <Company>Ruken</Company>
+    <RepositoryUrl>https://github.com/teamruken/test-public-console-app.git</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType>
+    <Description>
+      Test console app.
+    </Description>
+  </PropertyGroup>
+
+</Project>

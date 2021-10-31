@@ -1,0 +1,38 @@
+name: .NET
+
+on: 
+  push:
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build -c Release --no-restore
+
+    - name: Test
+      run: dotnet test -c Release -v normal --no-build
+
+    - name: Pack main
+      if: ${{ github.ref == 'refs/heads/main' && !contains(github.ref, 'pull') }}
+      run: dotnet pack -c Release --no-build
+
+    - name: Pack feature
+      if: ${{ github.ref != 'refs/heads/main' && !contains(github.ref, 'pull') }}
+      run: dotnet pack -c Release --no-build --version-suffix feature.${{github.run_number}}-${GITHUB_SHA::8}
+    
+    - name: Push to GitHub packages
+      if: ${{ !contains(github.ref, 'pull') }}
+      run: dotnet nuget push **/*.nupkg -k ${{secrets.GITHUB_TOKEN}} -s https://nuget.pkg.github.com/teamruken/index.json -n true
